@@ -1,0 +1,62 @@
+---
+title: "Side-by-Side Code Example"
+format: html
+---
+
+# Reading Lines
+
+## R `readLines()`
+```{r}
+readLines("data/toy-lines.dat")
+```
+
+## Python `readlines()`
+```{python}
+with open("data/toy-lines.dat", "r") as file:
+  print(file.readlines())
+```
+
+
+```{python}
+# a better way displaying
+with open("data/toy-lines.dat", "r") as file:
+  print("".join(file.readlines()))
+```
+
+## Converting to data frame
+```{r}
+library(tidyverse)
+readLines("data/toy-lines.dat") |> # vector
+  as_tibble()
+```
+
+```{python}
+import pandas as pd
+
+with open("data/toy-lines.dat", "r") as file:
+  lines = file.readlines() # list class
+
+pd.DataFrame(lines, columns=['value'])
+```
+
+
+
+## Mutate
+```{r}
+readLines("data/toy-lines.dat") |> 
+  as_tibble() |> 
+  mutate(name = str_sub(value, 1, 50))
+```
+
+```{python}
+import pandas as pd
+
+with open("data/toy-lines.dat", "r") as file:
+  lines = file.readlines()
+  
+df = pd.DataFrame(lines, columns=['value'])
+df['name'] = df['value'].str[:50]
+df
+```
+
+
